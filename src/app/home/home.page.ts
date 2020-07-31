@@ -19,4 +19,8 @@ export class HomePage implements OnInit {
   getTodos() {
     this.api.get(`todos`).subscribe((todos: ITodos[]) => (this.todos = todos));
   }
+
+  deleteTodo(id: string) {
+    this.api.delete(`todos/${id}`).subscribe((todo: ITodos) => this.getTodos());
+  }
 }
