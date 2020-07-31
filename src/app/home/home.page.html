@@ -12,7 +12,11 @@
   </ion-header>
 
   <div id="container">
-    <ion-list>
+    <ion-toolbar *ngIf="todos.length === 0">
+      <ion-title>There are no todo items to show...</ion-title>
+    </ion-toolbar>
+
+    <ion-list *ngIf="todos.length !== 0">
       <ion-item *ngFor="let todo of todos">
         <ion-label>{{ todo.title }}</ion-label>
         <ion-checkbox slot="start"></ion-checkbox>
