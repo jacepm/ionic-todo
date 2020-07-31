@@ -13,4 +13,8 @@ export class ApiService {
   get(uri: string): any {
     return this.http.get(this.API_URL + uri);
   }
+
+  post(uri: string, body: any): any {
+    return this.http.post(this.API_URL + uri, body);
+  }
 }
