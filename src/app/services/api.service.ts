@@ -21,4 +21,8 @@ export class ApiService {
   patch(uri: string, body: any): any {
     return this.http.patch(this.API_URL + uri, body);
   }
+
+  delete(uri: string): any {
+    return this.http.delete(this.API_URL + uri);
+  }
 }
