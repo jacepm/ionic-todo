@@ -45,4 +45,10 @@ export class HomePage implements OnInit {
     this.isEdit = true;
     this.todo = todo;
   }
+
+  onChange(todo: ITodos, event: Event) {
+    const check = (event.target as HTMLInputElement).checked;
+    this.todo = { ...todo, completed: !check };
+    this.updateTodo();
+  }
 }
