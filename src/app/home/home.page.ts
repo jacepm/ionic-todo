@@ -9,6 +9,7 @@ import { ITodos } from "../interface/todos.interface";
 })
 export class HomePage implements OnInit {
   todos: ITodos[] = [];
+  title = "";
 
   constructor(private api: ApiService) {}
 
@@ -20,7 +21,15 @@ export class HomePage implements OnInit {
     this.api.get(`todos`).subscribe((todos: ITodos[]) => (this.todos = todos));
   }
 
+  addTodo() {
+    const body = { title: this.title, completed: false };
+    this.api.post(`todos`, body).subscribe(() => {
+      this.title = "";
+      this.getTodos();
+    });
+  }
+
   deleteTodo(id: string) {
-    this.api.delete(`todos/${id}`).subscribe((todo: ITodos) => this.getTodos());
+    this.api.delete(`todos/${id}`).subscribe(() => this.getTodos());
   }
 }

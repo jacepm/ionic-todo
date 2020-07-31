@@ -20,5 +20,12 @@
         <ion-icon name="trash-outline" color="danger" (click)="deleteTodo(todo._id)"></ion-icon>
       </ion-item>
     </ion-list>
+
+    <ion-item>
+      <ion-label position="floating">Enter TODO here...</ion-label>
+      <ion-input [(ngModel)]="title"></ion-input>
+    </ion-item>
+
+    <ion-button color="primary" shape="round" size="large" expand="block" fill="outline" (click)="addTodo()">Add</ion-button>
   </div>
 </ion-content>
