@@ -17,4 +17,8 @@ export class ApiService {
   post(uri: string, body: any): any {
     return this.http.post(this.API_URL + uri, body);
   }
+
+  patch(uri: string, body: any): any {
+    return this.http.patch(this.API_URL + uri, body);
+  }
 }
