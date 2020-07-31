@@ -9,7 +9,8 @@ import { ITodos } from "../interface/todos.interface";
 })
 export class HomePage implements OnInit {
   todos: ITodos[] = [];
-  title = "";
+  todo: ITodos = { _id: "", title: "", completed: false };
+  isEdit = false;
 
   constructor(private api: ApiService) {}
 
@@ -22,14 +23,27 @@ export class HomePage implements OnInit {
   }
 
   addTodo() {
-    const body = { title: this.title, completed: false };
-    this.api.post(`todos`, body).subscribe(() => {
-      this.title = "";
+    const todo = { title: this.todo.title, completed: false };
+    this.api.post(`todos`, todo).subscribe(() => {
+      this.todo.title = "";
+      this.getTodos();
+    });
+  }
+
+  updateTodo() {
+    const todo = { ...this.todo };
+    this.api.patch(`todos/${this.todo._id}`, todo).subscribe(() => {
+      this.todo.title = "";
       this.getTodos();
     });
   }
 
   deleteTodo(id: string) {
     this.api.delete(`todos/${id}`).subscribe(() => this.getTodos());
+  }
+
+  editTodo(todo: ITodos) {
+    this.isEdit = true;
+    this.todo = todo;
   }
 }
