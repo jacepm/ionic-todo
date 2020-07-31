@@ -23,18 +23,17 @@ export class HomePage implements OnInit {
   }
 
   addTodo() {
-    const todo = { title: this.todo.title, completed: false };
-    this.api.post(`todos`, todo).subscribe(() => {
-      this.todo.title = "";
-      this.getTodos();
+    this.api.post(`todos`, { title: this.todo.title, completed: false }).subscribe(() => {
+      this.todo = { _id: "", title: "", completed: false };
+      return this.getTodos();
     });
   }
 
   updateTodo() {
     const todo = { ...this.todo };
     this.api.patch(`todos/${this.todo._id}`, todo).subscribe(() => {
-      this.todo.title = "";
-      this.getTodos();
+      this.todo = { _id: "", title: "", completed: false };
+      return this.getTodos();
     });
   }
 
