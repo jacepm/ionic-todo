@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ToastController } from "@ionic/angular";
 import { ApiService } from "../services/api.service";
 import { ITodos } from "../interface/todos.interface";
 
@@ -12,7 +13,7 @@ export class HomePage implements OnInit {
   todo: ITodos = { _id: "", title: "", completed: false };
   isEdit = false;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, public toastController: ToastController) {}
 
   ngOnInit() {
     this.getTodos();
@@ -24,6 +25,7 @@ export class HomePage implements OnInit {
 
   addTodo() {
     this.api.post(`todos`, { title: this.todo.title, completed: false }).subscribe(() => {
+      this.presentToast(`${this.todo.title.toUpperCase()} is sucessfully added.`);
       this.todo = { _id: "", title: "", completed: false };
       return this.getTodos();
     });
@@ -32,13 +34,17 @@ export class HomePage implements OnInit {
   updateTodo() {
     const todo = { ...this.todo };
     this.api.patch(`todos/${this.todo._id}`, todo).subscribe(() => {
+      this.presentToast(`${todo.title.toUpperCase()} is sucessfully updated.`);
       this.todo = { _id: "", title: "", completed: false };
       return this.getTodos();
     });
   }
 
   deleteTodo(id: string) {
-    this.api.delete(`todos/${id}`).subscribe(() => this.getTodos());
+    this.api.delete(`todos/${id}`).subscribe((todo: ITodos) => {
+      this.presentToast(`${todo.title.toUpperCase()} is sucessfully deleted.`);
+      return this.getTodos();
+    });
   }
 
   editTodo(todo: ITodos) {
@@ -50,5 +56,13 @@ export class HomePage implements OnInit {
     const check = (event.target as HTMLInputElement).checked;
     this.todo = { ...todo, completed: !check };
     this.updateTodo();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+    });
+    toast.present();
   }
 }
